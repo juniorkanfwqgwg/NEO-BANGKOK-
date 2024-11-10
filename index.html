@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awakening Bangkok</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        /* หน้าแรก */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@0355cfaddfc79ff37235fd0030209907f17fb241/BG.png');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            cursor: pointer;
+        }
+
+        .logo {
+            z-index: 4;
+        }
+
+        .logo img {
+            max-width: 50%;
+            margin-left: 100px;
+            height: auto;
+        }
+
+        /* หน้าใหม่ (หน้า 2) */
+        .background-new {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@1a03e934ffc5bffd9a24a369a8426911be010692/MAIN%20OBJECT.png');
+            background-size: cover;
+            background-position: center;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+
+        .logo-new {
+            position: absolute;
+            top: -2%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            mix-blend-mode: screen;
+        }
+
+        .logo-new img {
+            width: 280px;
+            left: 10%;
+            top: 100px;
+        }
+
+        .sticker, .google-link {
+            position: absolute;
+            transform: translateY(-0%);
+            cursor: pointer;
+            mix-blend-mode: screen;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .sticker {
+            top: 50%;
+            left: 17%;
+            animation: slideUp 2s ease-in-out forwards;
+        }
+
+        .google-link {
+            top: 31%;
+            right: 13%;
+        }
+
+        .sticker img, .google-link img {
+            width: 150px;
+            display: block;
+        }
+
+        .expand {
+            transform: scale(1.1) translateY(-50%);
+            opacity: 0.8;
+        }
+
+        /* หน้า Interactive Carousel */
+        .container {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@8756dba569289668fcf390e249ce499566e9984a/3/BGstik.png');
+            background-size: cover;
+            background-position: center;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            padding-top: 10vh;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 30px;
+            left: 15px;
+            width: 60px;
+            height: 60px;
+            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@8756dba569289668fcf390e249ce499566e9984a/3/Top%20R.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .preview-area {
+            margin-bottom: 20px;
+        }
+
+        .preview-area img {
+            width: 150px;
+            height: 150px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .carousel-grid-wrapper {
+            max-height: 50vh;
+            overflow-y: scroll;
+            padding: 10px;
+            border-top: 1px solid #00ffff;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .carousel-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .grid-item {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease;
+        }
+
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.7);
+        }
+
+        .confirm-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4040ff;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .confirm-button:hover {
+            background-color: #3030d4;
+        }
+
+        /* หน้า Preview หลังจากกด Confirm */
+        .preview-container {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@8756dba569289668fcf390e249ce499566e9984a/3/BGstik.png');
+            background-size: cover;
+            background-position: center;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 4;
+        }
+
+        .preview-selected {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .send-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4040ff;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #3030d4;
+        }
+    </style>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyC0o6yhCvX9EvfF1GVkJUsKBSaO6vvXFHo",
+          authDomain: "ar-awkn2024-cde.firebaseapp.com",
+          projectId: "ar-awkn2024-cde",
+          storageBucket: "ar-awkn2024-cde.firebasestorage.app",
+          messagingSenderId: "958609080092",
+          appId: "1:958609080092:web:503c39e9146aa825d1c4d9",
+          measurementId: "G-7BCME79FP7"
+        };
+      
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
+    <script>
+        let selectedSticker = "";
+
+        function goToNextPage() {
+            document.getElementById("background").style.display = "none";
+            document.getElementById("backgroundNew").style.display = "flex";
+        }
+
+        function showCarousel() {
+            document.getElementById("backgroundNew").style.display = "none";
+            document.getElementById("carouselContainer").style.display = "flex";
+            document.getElementById("carouselGridWrapper").style.display = "block";
+        }
+
+        function goBack() {
+            document.getElementById("carouselContainer").style.display = "none";
+            document.getElementById("backgroundNew").style.display = "flex";
+        }
+
+        function showPreview(imageUrl) {
+            document.getElementById("previewImage").src = imageUrl;
+            selectedSticker = imageUrl;
+        }
+
+        function confirmSelection() {
+            if (selectedSticker) {
+                document.getElementById("carouselContainer").style.display = "none";
+                document.getElementById("previewContainer").style.display = "flex";
+                document.getElementById("selectedPreview").style.backgroundImage = `url('${selectedSticker}')`;
+            } else {
+                alert("กรุณาเลือกสติกเกอร์ก่อนกด Confirm!");
+            }
+        }
+
+        function goBackToCarousel() {
+            document.getElementById("previewContainer").style.display = "none";
+            document.getElementById("carouselContainer").style.display = "flex";
+        }
+
+        // ฟังก์ชันส่งข้อมูลสติกเกอร์ไปยังระบบหลังบ้าน
+        function sendStickerData(stickerUrl) {
+            fetch('https://your-backend-url.com/api/upload-sticker', { // เปลี่ยน URL เป็นของ backend ของคุณ
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ stickerUrl: stickerUrl })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Sticker sent to backend!");
+                    window.location.reload(); // กลับไปหน้าแรก
+                } else {
+                    alert("Failed to send sticker to backend.");
+                }
+            })
+            .catch(error => console.error("Error sending sticker:", error));
+        }
+
+        // Event listener for sending sticker to backend when "SEND STICKER!" button is clicked
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".send-button").addEventListener("click", () => {
+                if (selectedSticker) {
+                    sendStickerData(selectedSticker);
+                } else {
+                    alert("กรุณาเลือกสติกเกอร์ก่อนส่ง!");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <!-- หน้าแรก -->
+    <div class="background" id="background" onclick="goToNextPage()">
+        <div class="logo">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@0355cfaddfc79ff37235fd0030209907f17fb241/AWKENING%20LOGO.png" alt="Awakening Bangkok Logo">
+        </div>
+    </div>
+
+    <!-- หน้าใหม่ (หน้า 2) -->
+    <div class="background-new" id="backgroundNew">
+        <div class="logo-new">
+        </div>
+        <div class="sticker" id="sticker" onclick="showCarousel()">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/STRIKER.png" alt="Sticker Button">
+        </div>
+        <div class="google-link" id="googleLink" onclick="goToGoogle()">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/AR.png" alt="https://www.instagram.com/ar/1790877781449181/">
+        </div>
+    </div>
+
+    <!-- หน้า Interactive Carousel -->
+    <div class="container" id="carouselContainer">
+        <div class="back-button" onclick="goBack()"></div>
+        
+        <!-- พื้นที่แสดง Preview -->
+        <div class="preview-area">
+            <img id="previewImage" src="https://via.placeholder.com/150" alt="Preview" />
+        </div>
+
+        <!-- พื้นที่เลื่อนกรอบ -->
+        <div class="carousel-grid-wrapper" id="carouselGridWrapper">
+            <div class="carousel-grid">
+                <!-- กรอบทั้ง 14 อัน -->
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png')"></div>
+                <!-- เพิ่มกรอบอื่น ๆ ที่เหลือให้ครบ 14 อัน -->
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%204.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%206.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%209.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork(16).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork.png')"></div>
+                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png')"></div>
+            </div>
+        </div>
+
+        <div class="confirm-button" onclick="confirmSelection()">CONFIRM</div>
+    </div>
+
+    <!-- หน้า Preview หลังจากกด Confirm -->
+    <div class="preview-container" id="previewContainer">
+        <div class="back-button" onclick="goBackToCarousel()"></div>
+        <div class="preview-selected" id="selectedPreview"></div>
+        <div class="send-button">SEND STICKER!</div>
+    </div>
+</body>
+</html>
