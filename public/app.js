@@ -1,6 +1,6 @@
-// firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,20 +16,6 @@ const firebaseConfig = {
   measurementId: "G-JBTYDYKJNE"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// ส่งข้อมูล sticker ไปยัง Firestore
-export async function sendStickerData(stickerId) {
-    try {
-        const docRef = await addDoc(collection(db, "stickers"), {
-            stickerId: stickerId,
-            timestamp: serverTimestamp()
-        });
-        // alert("Sticker data sent to Firebase!");
-        window.location.reload();
-    } catch (error) {
-        console.error("Error sending sticker data to Firebase:", error);
-        alert("Failed to send sticker data.");
-    }
-}
+const analytics = getAnalytics(app);
