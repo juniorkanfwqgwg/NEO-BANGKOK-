@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,8 @@
             box-sizing: border-box;
         }
 
-        body, html {
+        body,
+        html {
             width: 100%;
             height: 100%;
             overflow: hidden;
@@ -77,7 +79,8 @@
             top: 100px;
         }
 
-        .sticker, .google-link {
+        .sticker,
+        .google-link {
             position: absolute;
             transform: translateY(-0%);
             cursor: pointer;
@@ -96,7 +99,8 @@
             right: 13%;
         }
 
-        .sticker img, .google-link img {
+        .sticker img,
+        .google-link img {
             width: 150px;
             display: block;
         }
@@ -218,6 +222,7 @@
             box-shadow: 0 0 20px rgba(0, 255, 255, 1);
             background-size: cover;
             background-position: center;
+            z-index: 99;
         }
 
         .send-button {
@@ -239,99 +244,62 @@
 
     <!-- Firebase SDK -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
-      
-        const firebaseConfig = {
-          apiKey: "AIzaSyC0o6yhCvX9EvfF1GVkJUsKBSaO6vvXFHo",
-          authDomain: "ar-awkn2024-cde.firebaseapp.com",
-          projectId: "ar-awkn2024-cde",
-          storageBucket: "ar-awkn2024-cde.firebasestorage.app",
-          messagingSenderId: "958609080092",
-          appId: "1:958609080092:web:503c39e9146aa825d1c4d9",
-          measurementId: "G-7BCME79FP7"
-        };
-      
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        import { sendStickerData } from './app.js';
+
+        let selectedSticker = "";
+        let imageselected = ""
+        window.imageselected=imageselected
+        // ฟังก์ชันในการแสดงตัวอย่างสติ๊กเกอร์
+        function showPreview(imageUrl, stickerId) {
+            document.getElementById("previewImage").src = imageUrl;
+            selectedSticker = stickerId;
+            imageselected = imageUrl
+        }
+
+        // ผูกฟังก์ชันให้สามารถเรียกใช้จาก HTML
+        window.showPreview = showPreview;
+
+        // ฟังก์ชันยืนยันการเลือกสติ๊กเกอร์
+        function confirmSelection() {
+            if (!selectedSticker) {
+                alert("Please select a sticker!");
+                return;
+            }
+            // ใช้ selectedSticker แทน stickerId
+            document.getElementById("previewContainer").style.display = "flex";
+            document.getElementById("previewSelected").style.backgroundImage = `url(${imageselected})`; // แสดงสติ๊กเกอร์ที่เลือก
+        }
+
+        window.confirmSelection = confirmSelection;
+        function confirmSelection2() {
+            sendStickerData(selectedSticker);
+        }
+        window.confirmSelection2 = confirmSelection2;
     </script>
 
     <script>
-        let selectedSticker = "";
-
         function goToNextPage() {
             document.getElementById("background").style.display = "none";
             document.getElementById("backgroundNew").style.display = "flex";
         }
 
+        // ฟังก์ชันในการแสดง carousel หลังการเปลี่ยนหน้า
         function showCarousel() {
             document.getElementById("backgroundNew").style.display = "none";
             document.getElementById("carouselContainer").style.display = "flex";
             document.getElementById("carouselGridWrapper").style.display = "block";
         }
-
-        function goBack() {
-            document.getElementById("carouselContainer").style.display = "none";
-            document.getElementById("backgroundNew").style.display = "flex";
-        }
-
-        function showPreview(imageUrl) {
-            document.getElementById("previewImage").src = imageUrl;
-            selectedSticker = imageUrl;
-        }
-
-        function confirmSelection() {
-            if (selectedSticker) {
-                document.getElementById("carouselContainer").style.display = "none";
-                document.getElementById("previewContainer").style.display = "flex";
-                document.getElementById("selectedPreview").style.backgroundImage = `url('${selectedSticker}')`;
-            } else {
-                alert("กรุณาเลือกสติกเกอร์ก่อนกด Confirm!");
-            }
-        }
-
-        function goBackToCarousel() {
-            document.getElementById("previewContainer").style.display = "none";
-            document.getElementById("carouselContainer").style.display = "flex";
-        }
-
-        // ฟังก์ชันส่งข้อมูลสติกเกอร์ไปยังระบบหลังบ้าน
-        function sendStickerData(stickerUrl) {
-            fetch('https://your-backend-url.com/api/upload-sticker', { // เปลี่ยน URL เป็นของ backend ของคุณ
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ stickerUrl: stickerUrl })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert("Sticker sent to backend!");
-                    window.location.reload(); // กลับไปหน้าแรก
-                } else {
-                    alert("Failed to send sticker to backend.");
-                }
-            })
-            .catch(error => console.error("Error sending sticker:", error));
-        }
-
-        // Event listener for sending sticker to backend when "SEND STICKER!" button is clicked
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelector(".send-button").addEventListener("click", () => {
-                if (selectedSticker) {
-                    sendStickerData(selectedSticker);
-                } else {
-                    alert("กรุณาเลือกสติกเกอร์ก่อนส่ง!");
-                }
-            });
-        });
     </script>
+
+
 </head>
+
 <body>
     <!-- หน้าแรก -->
     <div class="background" id="background" onclick="goToNextPage()">
         <div class="logo">
-            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@0355cfaddfc79ff37235fd0030209907f17fb241/AWKENING%20LOGO.png" alt="Awakening Bangkok Logo">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@0355cfaddfc79ff37235fd0030209907f17fb241/AWKENING%20LOGO.png"
+                alt="Awakening Bangkok Logo">
         </div>
     </div>
 
@@ -340,17 +308,19 @@
         <div class="logo-new">
         </div>
         <div class="sticker" id="sticker" onclick="showCarousel()">
-            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/STRIKER.png" alt="Sticker Button">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/STRIKER.png"
+                alt="Sticker Button">
         </div>
         <div class="google-link" id="googleLink" onclick="goToGoogle()">
-            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/AR.png" alt="https://www.instagram.com/ar/1790877781449181/">
+            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/AR.png"
+                alt="https://www.instagram.com/ar/1790877781449181/">
         </div>
     </div>
 
     <!-- หน้า Interactive Carousel -->
     <div class="container" id="carouselContainer">
         <div class="back-button" onclick="goBack()"></div>
-        
+
         <!-- พื้นที่แสดง Preview -->
         <div class="preview-area">
             <img id="previewImage" src="https://via.placeholder.com/150" alt="Preview" />
@@ -360,19 +330,53 @@
         <div class="carousel-grid-wrapper" id="carouselGridWrapper">
             <div class="carousel-grid">
                 <!-- กรอบทั้ง 14 อัน -->
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png')"></div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png',1)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png',2)">
+                </div>
                 <!-- เพิ่มกรอบอื่น ๆ ที่เหลือให้ครบ 14 อัน -->
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%204.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%206.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%209.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork(16).png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork.png')"></div>
-                <div class="grid-item" style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');" onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png')"></div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201.png',3)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png',4)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2011.png',5)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%202.png',6)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%203.png',7)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%204.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%206.png',8)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%209.png')">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork(16).png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png',9)">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork.png')">
+                </div>
+                <div class="grid-item"
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png',10)">
+                </div>
             </div>
         </div>
 
@@ -382,8 +386,10 @@
     <!-- หน้า Preview หลังจากกด Confirm -->
     <div class="preview-container" id="previewContainer">
         <div class="back-button" onclick="goBackToCarousel()"></div>
-        <div class="preview-selected" id="selectedPreview"></div>
-        <div class="send-button">SEND STICKER!</div>
+        <div class="preview-selected" id="previewSelected"></div>
+        <div class="send-button" onclick="confirmSelection2()">SEND STICKER!</div>
     </div>
+
 </body>
+
 </html>
