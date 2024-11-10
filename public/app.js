@@ -16,20 +16,6 @@ const firebaseConfig = {
   measurementId: "G-JBTYDYKJNE"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// ส่งข้อมูล sticker ไปยัง Firestore
-export async function sendStickerData(stickerId) {
-    try {
-        const docRef = await addDoc(collection(db, "stickers"), {
-            stickerId: stickerId,
-            timestamp: serverTimestamp()
-        });
-        // alert("Sticker data sent to Firebase!");
-        window.location.reload();
-    } catch (error) {
-        console.error("Error sending sticker data to Firebase:", error);
-        alert("Failed to send sticker data.");
-    }
-}
+const analytics = getAnalytics(app);
