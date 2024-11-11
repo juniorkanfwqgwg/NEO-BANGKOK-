@@ -297,6 +297,17 @@
             document.getElementById("background").style.display = "none";
             document.getElementById("backgroundNew").style.display = "block";
         }
+        // function goBackToCarousel2() {
+        //     document.getElementById("background").style.display = "none";
+        //     document.getElementById("backgroundNew").style.display = "block";
+        // }
+        // Function to show the carousel and hide the preview
+        // function goBackToCarousel2() {
+        //     document.getElementById("carouselContainer").style.display = "block"; // Show the carousel container
+        //     document.getElementById("previewContainer").style.display = "none";
+
+        // }
+
 
         function goToIG() {
             window.open("https://www.instagram.com/ar/8929871567069835/", "_blank");
@@ -331,7 +342,7 @@
     </div>
 
     <!-- หน้า Interactive Carousel -->
-    <div class="container" id="carouselContainer">
+    <div class="container" id="carouselContainer" style="display: none;">
         <div class="back-button" onclick="goBackToCarousel()"></div>
 
         <!-- พื้นที่แสดง Preview -->
@@ -402,10 +413,11 @@
 
     <!-- หน้า Preview หลังจากกด Confirm -->
     <div class="preview-container" id="previewContainer">
-        <div class="back-button" onclick="goBackToCarousel()"></div>
+        <!-- <div class="back-button" onclick="goBackToCarousel2()"></div> -->
         <div class="preview-selected" id="previewSelected"></div>
         <div class="send-button" onclick="confirmSelection2()">SEND STICKER!</div>
     </div>
+    <div >
 
 </body>
 
