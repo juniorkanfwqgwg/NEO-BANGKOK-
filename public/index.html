@@ -289,10 +289,18 @@
             document.getElementById("carouselContainer").style.display = "flex";
             document.getElementById("carouselGridWrapper").style.display = "block";
         }
-        function goToIG() {
-            window.location.href = "https://www.instagram.com/ar/8929871567069835/";
+        // function goToIG() {
+        //     window.location.href = "https://www.instagram.com/ar/8929871567069835/";
 
+        // }
+        function goBackToCarousel() {
+            document.getElementById("background").style.display = "none";
+            document.getElementById("backgroundNew").style.display = "block";
         }
+        function goToIG() {
+            window.open("https://www.instagram.com/ar/8929871567069835/", "_blank");
+        }
+
     </script>
 
 
@@ -317,13 +325,13 @@
         </div>
         <div class="ig-link" id="igLink" onclick="goToIG()">
             <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/AR.png"
-                alt="https://www.instagram.com/ar/8929871567069835/">
+                alt="ig-link">
         </div>
     </div>
 
     <!-- หน้า Interactive Carousel -->
     <div class="container" id="carouselContainer">
-        <div class="back-button" onclick="goBack()"></div>
+        <div class="back-button" onclick="goBackToCarousel()"></div>
 
         <!-- พื้นที่แสดง Preview -->
         <div class="preview-area">
