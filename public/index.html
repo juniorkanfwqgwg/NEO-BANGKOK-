@@ -53,7 +53,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@1a03e934ffc5bffd9a24a369a8426911be010692/MAIN%20OBJECT.png');
+            background-image: url('https://cdn.jsdelivr.net/gh/nearcode/crating@140cb4a7905b95ecd4bbc44e46b3c4ae29665967/BG.png');
             background-size: cover;
             background-position: center;
             width: 100vw;
@@ -86,17 +86,18 @@
             cursor: pointer;
             mix-blend-mode: screen;
             transition: transform 0.3s ease, opacity 0.3s ease;
+            transform: scale(1.7);
         }
 
         .sticker {
-            top: 50%;
-            left: 17%;
+            top: 55%;
+            left: 30%;
             animation: slideUp 2s ease-in-out forwards;
         }
 
         .ig-link {
-            top: 31%;
-            right: 13%;
+            top: 37%;
+            right: 28%;
         }
 
         .sticker img,
@@ -290,7 +291,7 @@
             document.getElementById("carouselGridWrapper").style.display = "block";
         }
         // function goToIG() {
-        //     window.location.href = "https://www.instagram.com/ar/8929871567069835/";
+        //     window.location.href = "https://www.instagram.com/ar/407581735624672";
 
         // }
         function goBackToCarousel() {
@@ -310,7 +311,7 @@
 
 
         function goToIG() {
-            window.open("https://www.instagram.com/ar/8929871567069835/", "_blank");
+            window.open("https://www.instagram.com/ar/407581735624672", "_blank");
         }
 
     </script>
@@ -332,11 +333,11 @@
         <div class="logo-new">
         </div>
         <div class="sticker" id="sticker" onclick="showCarousel()">
-            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/STRIKER.png"
+            <img src="https://cdn.jsdelivr.net/gh/nearcode/crating@660ef5cadd54cab605d94b2341d89901c88ae0ea/Group%202.png"
                 alt="Sticker Button">
         </div>
         <div class="ig-link" id="sticker" onclick="goToIG()">
-            <img src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@752723f272394a9899c94d7653819849ebecc3ce/AR.png"
+            <img src="https://cdn.jsdelivr.net/gh/nearcode/crating@140cb4a7905b95ecd4bbc44e46b3c4ae29665967/AR.png"
                 alt="ig-link">
         </div>
     </div>
@@ -347,7 +348,7 @@
 
         <!-- พื้นที่แสดง Preview -->
         <div class="preview-area">
-            <img id="previewImage" src="https://via.placeholder.com/150" alt="Preview" />
+            <img id="previewImage" src="https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png" />
         </div>
 
         <!-- พื้นที่เลื่อนกรอบ -->
@@ -359,8 +360,8 @@
                     onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%20(1).png',1)">
                 </div>
                 <div class="grid-item"
-                    style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png');"
-                    onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%201%20(1).png',2)">
+                    style="background-image: url('https://cdn.jsdelivr.net/gh/nearcode/crating@3b91294368d57ac8b6bb4081d811f5d4be6ccbe3/Untitled-1.png');"
+                    onclick="showPreview('https://cdn.jsdelivr.net/gh/nearcode/crating@3b91294368d57ac8b6bb4081d811f5d4be6ccbe3/Untitled-1.png',2)">
                 </div>
                 <!-- เพิ่มกรอบอื่น ๆ ที่เหลือให้ครบ 14 อัน -->
                 <div class="grid-item"
@@ -403,6 +404,7 @@
                 <div class="grid-item"
                     style="background-image: url('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png');"
                     onclick="showPreview('https://cdn.jsdelivr.net/gh/juniorkanfwqgwg/AWKECDE321@9f25f410e969edd8cf2a6c25a773008e6b6baaf3/Stickers-2/Untitled_Artwork%2010.png',12)">
+                    
                 </div>
             </div>
         </div>
@@ -418,7 +420,73 @@
         <div class="send-button" onclick="confirmSelection2()">SEND STICKER!</div>
     </div>
     <div >
+        <script>
+           // ฟังก์ชันส่งสติ๊กเกอร์และกลับไปหน้าแรก
+function confirmSelection2() {
+    if (!selectedSticker) {
+        alert("กรุณาเลือกสติ๊กเกอร์ก่อนส่ง!");
+        return;
+    }
 
+    // ส่งข้อมูลสติ๊กเกอร์ (คุณสามารถเพิ่มโค้ดการส่งข้อมูลที่นี่)
+    console.log("ส่งข้อมูลสติ๊กเกอร์:", selectedSticker);
+
+    // ซ่อนหน้า Preview Container
+    document.getElementById("previewContainer").style.display = "none";
+
+    // กลับไปที่หน้าแรก
+    document.getElementById("background").style.display = "flex";
+    document.getElementById("carouselContainer").style.display = "none"; // ซ่อนหน้า Carousel ถ้ามันยังแสดงอยู่
+    document.getElementById("backgroundNew").style.display = "none"; // ซ่อนหน้าใหม่ (หน้า 2) ถ้ามันยังแสดงอยู่
+}
+window.confirmSelection2 = confirmSelection2;
+        
+            // ฟังก์ชันยืนยันการเลือกสติ๊กเกอร์
+            function confirmSelection() {
+                const previewContainer = document.getElementById("previewContainer");
+                const previewSelected = document.getElementById("previewSelected");
+        
+                if (!selectedSticker) {
+                    alert("กรุณาเลือกสติ๊กเกอร์!");
+                    return;
+                }
+        
+                if (previewContainer && previewSelected) {
+                    previewContainer.style.display = "flex";
+                    previewSelected.style.backgroundImage = `url(${imageselected})`;
+                    console.log("สติ๊กเกอร์ที่เลือก: ", imageselected);
+                }
+            }
+            window.confirmSelection = confirmSelection;
+        
+            // ฟังก์ชันแสดงตัวอย่างสติ๊กเกอร์
+            function showPreview(imageUrl, stickerId) {
+                const previewImage = document.getElementById("previewImage");
+        
+                if (previewImage) {
+                    previewImage.src = imageUrl;
+                }
+        
+                selectedSticker = stickerId;
+                imageselected = imageUrl;
+        
+                console.log("Sticker ID:", stickerId, "Sticker URL:", imageUrl);
+            }
+            window.showPreview = showPreview;
+        
+            // ฟังก์ชันเปิดหน้า IG
+            function goToIG() {
+                window.open("https://www.instagram.com/ar/407581735624672", "_blank");
+            }
+            window.goToIG = goToIG;
+        
+            // ฟังก์ชันไปยังหน้าแรก
+            function goToNextPage() {
+                document.getElementById("background").style.display = "none";
+                document.getElementById("backgroundNew").style.display = "flex";
+            }
+            window.goToNextPage = goToNextPage;
+        </script>
 </body>
 
 </html>
